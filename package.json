@@ -1,0 +1,12 @@
+{
+  "name": "guvenli-tarayici",
+  "version": "1.0.0",
+  "description": "Güvenli Tarayıcı Uygulaması",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^28.0.0"
+  }
+} 

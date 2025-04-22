@@ -8,6 +8,7 @@
   background-color: #282c34;
   padding: 1rem;
   color: white;
+  margin-bottom: 20px;
 }
 
 .App-header h1 {
@@ -16,10 +17,10 @@
 
 .App-main {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-  max-width: 1200px;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -27,6 +28,10 @@
   .App-main {
     grid-template-columns: 1fr;
   }
+}
+
+.left-panel, .right-panel {
+  min-height: 500px;
 }
 
 .reminder-list, .calendar {
@@ -213,4 +218,11 @@ p {
 .preview {
   color: #666;
   font-size: 0.9em;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 } 

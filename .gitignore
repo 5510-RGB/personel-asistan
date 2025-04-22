@@ -1,7 +1,41 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
+venv/
+*.sqlite
+*.db
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# Python
 *.so
 .Python
 env/
@@ -20,26 +54,11 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-venv/
 .env
 
-# Node
-node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
-.pnpm-debug.log
-
 # IDEs and editors
-.idea/
-.vscode/
 *.swp
 *.swo
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
 # Database
 *.db

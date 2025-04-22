@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
-import Weather from './components/Weather/Weather';
-import News from './components/News/News';
-import Email from './components/Email/Email';
+import Chat from './components/Chat';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
@@ -11,9 +10,12 @@ function App() {
         <h1>Kişisel Asistan</h1>
       </header>
       <main className="App-main">
-        <Weather />
-        <News />
-        <Email />
+        <div className="left-panel">
+          <Dashboard />
+        </div>
+        <div className="right-panel">
+          <Chat />
+        </div>
       </main>
     </div>
   );

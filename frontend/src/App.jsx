@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import Chat from './components/Chat';
-import Dashboard from './components/Dashboard';
+import Chat from './components/Chat/Chat';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -10,12 +10,8 @@ function App() {
         <h1>Kişisel Asistan</h1>
       </header>
       <main className="App-main">
-        <div className="left-panel">
-          <Dashboard />
-        </div>
-        <div className="right-panel">
-          <Chat />
-        </div>
+        <Dashboard />
+        <Chat />
       </main>
     </div>
   );

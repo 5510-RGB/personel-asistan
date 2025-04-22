@@ -1,0 +1,22 @@
+.dashboard {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.time-widget {
+  text-align: center;
+}
+
+.time {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.date {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 10px;
+} 

@@ -12,44 +12,41 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Veritabanı modelleri
-class Reminder(db.Model):
+class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text)
-    due_date = db.Column(db.DateTime, nullable=False)
-    is_completed = db.Column(db.Boolean, default=False)
+    content = db.Column(db.Text, nullable=False)
+    sender = db.Column(db.String(20), nullable=False)  # 'user' veya 'assistant'
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-# API rotaları
-@app.route('/api/reminders', methods=['GET'])
-def get_reminders():
-    reminders = Reminder.query.all()
-    return jsonify([{
-        'id': r.id,
-        'title': r.title,
-        'description': r.description,
-        'due_date': r.due_date.isoformat(),
-        'is_completed': r.is_completed
-    } for r in reminders])
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'sender': self.sender,
+            'timestamp': self.timestamp.isoformat()
+        }
 
-@app.route('/api/reminders', methods=['POST'])
-def create_reminder():
+@app.route('/api/messages', methods=['GET'])
+def get_messages():
+    messages = Message.query.order_by(Message.timestamp).all()
+    return jsonify([message.to_dict() for message in messages])
+
+@app.route('/api/messages', methods=['POST'])
+def create_message():
     data = request.get_json()
-    reminder = Reminder(
-        title=data['title'],
-        description=data.get('description', ''),
-        due_date=datetime.fromisoformat(data['due_date']),
-        is_completed=False
+    
+    if not data or 'content' not in data:
+        return jsonify({'error': 'Content is required'}), 400
+        
+    message = Message(
+        content=data['content'],
+        sender=data.get('sender', 'user')
     )
-    db.session.add(reminder)
+    
+    db.session.add(message)
     db.session.commit()
-    return jsonify({
-        'id': reminder.id,
-        'title': reminder.title,
-        'description': reminder.description,
-        'due_date': reminder.due_date.isoformat(),
-        'is_completed': reminder.is_completed
-    }), 201
+    
+    return jsonify(message.to_dict()), 201
 
 # Veritabanını oluştur
 with app.app_context():

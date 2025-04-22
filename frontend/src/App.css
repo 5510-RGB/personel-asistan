@@ -8,11 +8,6 @@
   background-color: #282c34;
   padding: 1rem;
   color: white;
-  margin-bottom: 20px;
-}
-
-.App-header h1 {
-  margin: 0;
 }
 
 .App-main {
@@ -20,7 +15,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding: 20px;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 

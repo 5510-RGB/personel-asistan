@@ -1,0 +1,213 @@
+.App {
+  text-align: center;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+.App-header h1 {
+  margin: 0;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-section {
+  min-height: 200px;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+
+.reminder-list, .calendar {
+  text-align: left;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input, textarea {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.event-card {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border-left: 4px solid #4CAF50;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #444;
+  margin: 0 0 10px 0;
+}
+
+p {
+  color: #666;
+  margin: 5px 0;
+}
+
+.weather-widget {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.weather-info {
+  text-align: center;
+}
+
+.temperature {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.condition {
+  font-size: 1.2em;
+  color: #666;
+  margin: 10px 0;
+}
+
+.details {
+  display: flex;
+  justify-content: space-around;
+  color: #777;
+  margin-top: 15px;
+}
+
+.news-widget {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.news-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.news-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-item h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.news-item p {
+  color: #666;
+  margin: 0 0 10px 0;
+}
+
+.source {
+  color: #999;
+  font-size: 0.9em;
+}
+
+.email-widget {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.email-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.email-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.email-item:hover {
+  background: #f9f9f9;
+}
+
+.email-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.sender {
+  font-weight: bold;
+  color: #333;
+}
+
+.date {
+  color: #999;
+  font-size: 0.9em;
+}
+
+.subject {
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.preview {
+  color: #666;
+  font-size: 0.9em;
+} 

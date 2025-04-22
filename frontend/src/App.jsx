@@ -10,18 +10,10 @@ function App() {
       <header className="App-header">
         <h1>Kişisel Asistan</h1>
       </header>
-      <main>
-        <div className="dashboard">
-          <div className="dashboard-section">
-            <Weather />
-          </div>
-          <div className="dashboard-section">
-            <News />
-          </div>
-          <div className="dashboard-section">
-            <Email />
-          </div>
-        </div>
+      <main className="App-main">
+        <Weather />
+        <News />
+        <Email />
       </main>
     </div>
   );

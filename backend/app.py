@@ -1,20 +1,20 @@
 from flask import Flask
 from flask_cors import CORS
 from models.models import db
-from routes.api import api  # Import yolunu düzelttik
+from routes.api import api
 
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
-# Database configuration (using SQLite)
+# SQLite veritabanı yapılandırması
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///personal_assistant.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize database
+# Veritabanını başlat
 db.init_app(app)
 
-# API blueprint'ini kaydet
+# API Blueprint'i kaydet
 app.register_blueprint(api, url_prefix='/api')
 
 # Veritabanı tablolarını oluştur

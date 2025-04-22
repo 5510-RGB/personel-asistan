@@ -8,21 +8,18 @@ api = Blueprint('api', __name__)
 @api.route('/reminders', methods=['GET'])
 def get_reminders():
     reminders = Reminder.query.all()
-    return jsonify([reminder.to_dict() for reminder in reminders])
+    return jsonify([r.to_dict() for r in reminders])
 
 @api.route('/reminders', methods=['POST'])
 def create_reminder():
     data = request.get_json()
-    
     try:
-        due_date = datetime.fromisoformat(data['due_date'])
         reminder = Reminder(
             title=data['title'],
             description=data.get('description', ''),
-            due_date=due_date,
+            due_date=datetime.fromisoformat(data['due_date']),
             is_completed=data.get('is_completed', False)
         )
-        
         db.session.add(reminder)
         db.session.commit()
         return jsonify(reminder.to_dict()), 201
@@ -56,27 +53,22 @@ def delete_reminder(id):
     db.session.commit()
     return '', 204
 
-# Calendar event routes
+# Calendar routes
 @api.route('/calendar-events', methods=['GET'])
-def get_calendar_events():
+def get_events():
     events = CalendarEvent.query.all()
-    return jsonify([event.to_dict() for event in events])
+    return jsonify([e.to_dict() for e in events])
 
 @api.route('/calendar-events', methods=['POST'])
-def create_calendar_event():
+def create_event():
     data = request.get_json()
-    
     try:
-        start_time = datetime.fromisoformat(data['start_time'])
-        end_time = datetime.fromisoformat(data['end_time'])
         event = CalendarEvent(
             title=data['title'],
             description=data.get('description', ''),
-            start_time=start_time,
-            end_time=end_time,
-            location=data.get('location', '')
+            start_time=datetime.fromisoformat(data['start_time']),
+            end_time=datetime.fromisoformat(data['end_time'])
         )
-        
         db.session.add(event)
         db.session.commit()
         return jsonify(event.to_dict()), 201

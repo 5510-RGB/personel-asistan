@@ -1,7 +1,121 @@
+body {
+  background: #fff;
+}
+
+.assistant-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 32px 8px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.profile-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  background: #f5f5f5;
+  object-fit: cover;
+}
+
+.welcome-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  color: #222;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.card {
+  background: #fafbfc;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 18px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100px;
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+  color: #222;
+}
+
+.card-desc {
+  font-size: 0.95rem;
+  color: #666;
+  text-align: center;
+}
+
+@media (max-width: 500px) {
+  .assistant-container {
+    max-width: 100vw;
+    padding: 12px 2px;
+  }
+  .grid {
+    gap: 10px;
+  }
+  .card {
+    padding: 12px 4px;
+    min-height: 80px;
+  }
+}
+
 .App {
   text-align: center;
-  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.App-header {
   background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.profile-pic {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.App-main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  font-size: 1.2em;
 }
 
 .App-header {
@@ -72,11 +186,31 @@ li {
 }
 
 .event-card {
-  background-color: #f9f9f9;
+  background: #f8f9fa;
   padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  border-left: 4px solid #4CAF50;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 4px solid #007bff;
+  transition: transform 0.2s;
+}
+
+.event-card:hover {
+  transform: translateX(5px);
+}
+
+.event-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.no-events {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
 h2 {
@@ -102,10 +236,12 @@ p {
 }
 
 .weather-card {
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: linear-gradient(135deg, #007bff, #00bfff);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
 }
 
 .weather-info {
@@ -116,19 +252,29 @@ p {
 }
 
 .temperature {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .condition {
-  color: #666;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  text-transform: capitalize;
 }
 
 .details {
   display: flex;
   justify-content: space-around;
-  width: 100%;
-  color: #777;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.details span {
+  font-size: 1.1rem;
 }
 
 .news-widget {
@@ -215,9 +361,289 @@ p {
   font-size: 0.9em;
 }
 
-.card {
-  background: white;
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px;
+  min-width: 320px;
+  max-width: 90vw;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  position: relative;
+  text-align: left;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: #eee;
+  border: none;
   border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.chat-box {
+  margin-top: 20px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.message.assistant {
+  background: #e9ecef;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+/* Panel içerikleri için genel stiller */
+.calendar-content,
+.weather-content,
+.email-content,
+.notes-content,
+.create-note-content {
+  margin-top: 20px;
+}
+
+/* Takvim kartı */
+.event-card {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 4px solid #007bff;
+  transition: transform 0.2s;
+}
+
+.event-card:hover {
+  transform: translateX(5px);
+}
+
+.event-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.no-events {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Hava durumu kartı */
+.weather-card {
+  background: linear-gradient(135deg, #007bff, #00bfff);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+}
+
+.temperature {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.condition {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+}
+
+.details {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.details span {
+  font-size: 1.1rem;
+}
+
+/* E-posta listesi */
+.email-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.email-item {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.email-item:hover {
+  background: #e9ecef;
+}
+
+.email-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.sender {
+  font-weight: bold;
+  color: #333;
+}
+
+.date {
+  color: #666;
+}
+
+.subject {
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.preview {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Notlar */
+.note-item {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.note-item p {
+  margin: 0;
+  color: #333;
+}
+
+/* Not oluşturma formu */
+.create-note-content textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  resize: vertical;
+}
+
+.save-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-btn:hover {
+  background: #0056b3;
+}
+
+/* Modal içeriği için ek stiller */
+.modal-content {
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Sohbet arayüzü stilleri */
+.messages-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.message {
+  max-width: 80%;
+  padding: 10px 15px;
+  margin: 8px 0;
+  border-radius: 15px;
+  word-wrap: break-word;
+}
+
+.message.user {
+  background-color: #007bff;
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+}
+
+.message.assistant {
+  background-color: #e9ecef;
+  color: #333;
+  margin-right: auto;
+  border-bottom-left-radius: 5px;
+}
+
+.chat-input-form {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.send-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.send-btn:hover {
+  background: #0056b3;
+}
+
+.assistant-profile-img {
+  border: 4px solid #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 1.5px 4px rgba(0,123,255,0.10);
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  background: #f5f5f5;
+  margin-bottom: 18px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.assistant-profile-img:hover {
+  transform: scale(1.04) rotate(-2deg);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,123,255,0.18);
 } 

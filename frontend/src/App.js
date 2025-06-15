@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Assistant from './components/Assistant';
+import Dashboard from './pages/Dashboard';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import axios from 'axios';
 
 // Korumalı rota bileşeni
@@ -89,7 +92,7 @@ const App = () => {
                 isAuthenticated ? (
                   <Navigate to="/assistant" replace />
                 ) : (
-                  <Login setIsAuthenticated={setIsAuthenticated} />
+                  <Login />
                 )
               }
             />
@@ -111,6 +114,9 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
           </Routes>
         </main>
       </div>

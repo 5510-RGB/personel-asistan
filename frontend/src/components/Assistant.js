@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { FaPaperPlane, FaBell, FaEnvelope, FaNewspaper, FaStickyNote, FaClock, FaUser, FaPlus, FaSun, FaMoon } from 'react-icons/fa';
 
@@ -19,6 +19,9 @@ const Assistant = () => {
   const [newNote, setNewNote] = useState('');
   const [user, setUser] = useState(null);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [chatHistory, setChatHistory] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -107,27 +110,56 @@ const Assistant = () => {
     }
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
     setLoading(true);
+    setIsTyping(true);
     const userMessage = inputMessage;
     setInputMessage('');
 
-    setMessages(prev => [...prev, { content: userMessage, sender: 'user' }]);
+    setMessages(prev => [...prev, { 
+      content: userMessage, 
+      sender: 'user',
+      timestamp: new Date().toLocaleTimeString()
+    }]);
 
     try {
       const response = await axios.post('http://127.0.0.1:5000/api/chat', {
         message: userMessage
       });
 
-      setMessages(prev => [...prev, { content: response.data.response, sender: 'assistant' }]);
+      setMessages(prev => [...prev, { 
+        content: response.data.response, 
+        sender: 'assistant',
+        timestamp: response.data.timestamp
+      }]);
+
+      setChatHistory(prev => [...prev, {
+        userMessage,
+        assistantResponse: response.data.response,
+        timestamp: response.data.timestamp
+      }]);
+
     } catch (error) {
       console.error('Mesaj gönderme hatası:', error);
-      setMessages(prev => [...prev, { content: 'Üzgünüm, bir hata oluştu.', sender: 'assistant' }]);
+      setMessages(prev => [...prev, { 
+        content: 'Üzgünüm, bir hata oluştu.', 
+        sender: 'assistant',
+        timestamp: new Date().toLocaleTimeString()
+      }]);
     } finally {
       setLoading(false);
+      setIsTyping(false);
     }
   };
 
@@ -174,7 +206,7 @@ const Assistant = () => {
             <div className="flex items-center space-x-4">
               <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://generative-ai-frontend-dot-cursor-code-ai.uc.r.appspot.com/image/786c016d-88b1-4581-a3e3-4f9c701c8993.jpg"
+                  src="/images/assistant_profile.jpg"
                   alt="Asistan"
                   className="w-full h-full object-cover"
                 />
@@ -225,7 +257,7 @@ const Assistant = () => {
           <div className={`md:col-span-2 rounded-lg shadow p-4 ${theme === 'dark' ? 'bg-gray-900 text-gray-200' : 'bg-white text-gray-900'}`}>
             <div className="flex items-center mb-4">
               <img
-                src="https://generative-ai-frontend-dot-cursor-code-ai.uc.r.appspot.com/image/786c016d-88b1-4581-a3e3-4f9c701c8993.jpg"
+                src="/images/assistant_profile.jpg"
                 alt="Asistan"
                 className="w-10 h-10 rounded-full mr-3"
               />
@@ -323,9 +355,14 @@ const Assistant = () => {
                 </div>
                 <div className="space-y-2">
                   {emails.map((email, index) => (
-                    <div key={index} className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                    <div key={index} className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
                       <p className="font-bold">{email.subject}</p>
-                      <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{email.sender}</p>
+                      <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                        Gönderen: {email.sender}
+                      </p>
+                      <p className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+                        {new Date(email.date).toLocaleString()}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -335,7 +372,7 @@ const Assistant = () => {
             {showNews && (
               <div className={`rounded-lg shadow p-4 ${theme === 'dark' ? 'bg-gray-900 text-gray-200' : 'bg-white text-gray-900'}`}>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold">Haberler</h3>
+                  <h3 className="font-bold">Güncel Haberler</h3>
                   <button
                     onClick={() => setShowNews(false)}
                     className={`text-gray-500 hover:text-gray-700 ${theme === 'dark' ? 'text-gray-400 hover:text-gray-200' : ''}`}
@@ -343,11 +380,33 @@ const Assistant = () => {
                     ✕
                   </button>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-4">
                   {news.map((item, index) => (
-                    <div key={index} className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                      <p className="font-bold">{item.title}</p>
-                      <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{item.source}</p>
+                    <div key={index} className={`p-3 rounded ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                      {item.imageUrl && (
+                        <img 
+                          src={item.imageUrl} 
+                          alt={item.title}
+                          className="w-full h-40 object-cover rounded mb-2"
+                        />
+                      )}
+                      <p className="font-bold mb-2">{item.title}</p>
+                      <p className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                        {item.description}
+                      </p>
+                      <div className="flex justify-between items-center">
+                        <p className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+                          {item.source} • {new Date(item.publishedAt).toLocaleString()}
+                        </p>
+                        <a 
+                          href={item.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className={`text-sm ${theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'}`}
+                        >
+                          Devamını Oku
+                        </a>
+                      </div>
                     </div>
                   ))}
                 </div>
